@@ -3,12 +3,11 @@ const mongoose = require("mongoose");
 const { errors } = require("celebrate");
 const helmet = require("helmet");
 const rateLimit = require("express-rate-limit");
-const NotFoundError = require("./errors/NotFoundError");
 const cors = require("cors");
-const dotenv = require("dotenv");
+const NotFoundError = require("./errors/NotFoundError");
 const { requestLogger, errorLogger } = require("./middlewares/logger");
 
-const { PORT = 3000, DB_URL = "mongodb://localhost:27017/mestodb" } =
+const { PORT = 3000, DB_URL = "mongodb://127.0.0.1:27017/mestodb" } =
   process.env;
 const app = express();
 
