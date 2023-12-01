@@ -1,0 +1,9 @@
+.userForm {
+  padding-top: 60px;
+  max-width: 358px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: auto;
+  padding-bottom: 70px;
+}

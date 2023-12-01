@@ -1,0 +1,14 @@
+.userForm__isLogged {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  color: #fff;
+  text-align: center;
+  font-family: Inter;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  max-height: 17px;
+  margin-top: 15px;
+}

@@ -1,0 +1,16 @@
+.userForm__input {
+  width: 358px;
+  height: 14px;
+  flex-shrink: 0;
+  color: #ccc;
+  font-family: Inter;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  background-color: transparent;
+  padding-bottom: 13px;
+  border: 0;
+  border-bottom: #ccc 2px solid;
+  margin-bottom: 30px;
+}
