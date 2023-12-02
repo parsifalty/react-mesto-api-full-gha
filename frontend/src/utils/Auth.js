@@ -1,4 +1,4 @@
-const BASE_URL = "api.mestokda.nomoredomainsmonster.ru";
+const BASE_URL = "http://api.mestokda.nomoredomainsmonster.ru";
 
 function checkResponse(res) {
   if (res.ok) {
