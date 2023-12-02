@@ -5,12 +5,6 @@ const signupRouter = require("./signup");
 const singinRouter = require("./singin");
 const auth = require("../middlewares/auth");
 
-router.get("/crash-test", () => {
-  setTimeout(() => {
-    throw new Error("Сервер сейчас упадёт");
-  }, 0);
-});
-
 router.use(signupRouter);
 router.use(singinRouter);
 
