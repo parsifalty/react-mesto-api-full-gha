@@ -4,6 +4,7 @@ import CurrentUserContext from "../contexts/CurrentUserContext.js";
 
 function Main(props) {
   const UserContext = React.useContext(CurrentUserContext);
+
   return (
     <main className="content">
       <section className="profile" aria-label="Профиль">
