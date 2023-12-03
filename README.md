@@ -12,6 +12,6 @@
 
 IP-адрес 158.160.131.29
 
-Frontend http://mestokda.nomoredomainsmonster.ru
+Frontend https://mestokda.nomoredomainsmonster.ru
 
-Backend http://api.mestokda.nomoredomainsmonster.ru
+Backend https://api.mestokda.nomoredomainsmonster.ru

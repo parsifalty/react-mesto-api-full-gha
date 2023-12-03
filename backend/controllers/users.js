@@ -1,11 +1,12 @@
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
-const BadRequestError = require('../errors/BadRequestError');
-const NotFoundError = require('../errors/NotFoundError');
-const ConflictError = require('../errors/ConflictError');
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
+const BadRequestError = require("../errors/BadRequestError");
+const NotFoundError = require("../errors/NotFoundError");
+const ConflictError = require("../errors/ConflictError");
+const { NODE_ENV, JWT_SECRET } = process.env;
 
-const User = require('../models/user');
-const { SUCCESS_STATUS, CREATED_STATUS } = require('../constants');
+const User = require("../models/user");
+const { SUCCESS_STATUS, CREATED_STATUS } = require("../constants");
 
 module.exports.getUser = (req, res, next) => {
   User.find({})
@@ -20,7 +21,7 @@ module.exports.getUserById = (req, res, next) => {
       res.status(SUCCESS_STATUS).send(user);
     })
     .catch((err) => {
-      if (err.name === 'CastError') {
+      if (err.name === "CastError") {
         next(new BadRequestError(`Неккоректный айди ${req.params.userId}`));
       } else {
         next(err);
@@ -29,19 +30,19 @@ module.exports.getUserById = (req, res, next) => {
 };
 
 module.exports.addUser = (req, res, next) => {
-  const {
-    name, about, avatar, password, email,
-  } = req.body;
+  const { name, about, avatar, password, email } = req.body;
 
   return bcrypt
     .hash(password, 10)
-    .then((hash) => User.create({
-      name,
-      about,
-      avatar,
-      email,
-      password: hash,
-    }))
+    .then((hash) =>
+      User.create({
+        name,
+        about,
+        avatar,
+        email,
+        password: hash,
+      })
+    )
 
     .then((user) => {
       res.status(CREATED_STATUS).send({
@@ -53,10 +54,10 @@ module.exports.addUser = (req, res, next) => {
       });
     })
     .catch((err) => {
-      if (err.name === 'ValidationError') {
+      if (err.name === "ValidationError") {
         next(new BadRequestError(err.message));
       } else if (err.code === 11000) {
-        next(new ConflictError('Такая почта уже существует'));
+        next(new ConflictError("Такая почта уже существует"));
       } else {
         next(err);
       }
@@ -68,11 +69,11 @@ module.exports.editUserData = (req, res, next) => {
   User.findByIdAndUpdate(
     req.user._id,
     { name, about },
-    { new: 'true', runValidators: true },
+    { new: "true", runValidators: true }
   )
     .then((user) => res.status(SUCCESS_STATUS).send(user))
     .catch((err) => {
-      if (err.name === 'ValidationError') {
+      if (err.name === "ValidationError") {
         next(new BadRequestError(err.message));
       } else {
         next(err);
@@ -84,11 +85,11 @@ module.exports.editUserAvatar = (req, res, next) => {
   User.findByIdAndUpdate(
     req.user._id,
     { avatar: req.body.avatar },
-    { new: 'true', runValidators: true },
+    { new: "true", runValidators: true }
   )
     .then((user) => res.status(SUCCESS_STATUS).send(user))
     .catch((err) => {
-      if (err.name === 'ValidationError') {
+      if (err.name === "ValidationError") {
         next(new BadRequestError(err.message));
       } else {
         next(err);
@@ -100,9 +101,13 @@ module.exports.login = (req, res, next) => {
   const { password, email } = req.body;
   return User.findUserByCredentials(email, password)
     .then((user) => {
-      const token = jwt.sign({ _id: user._id }, 'some-secret-key', {
-        expiresIn: '7d',
-      });
+      const token = jwt.sign(
+        { _id: user._id },
+        NODE_ENV === "production" ? JWT_SECRET : "dev-secret",
+        {
+          expiresIn: "7d",
+        }
+      );
       res.send({
         token,
       });
@@ -116,7 +121,7 @@ module.exports.getCurrentUser = (req, res, next) => {
   User.findById(req.user._id)
     .then((user) => {
       if (!user) {
-        throw new NotFoundError('Пользователь не был найден');
+        throw new NotFoundError("Пользователь не был найден");
       }
       return res.status(SUCCESS_STATUS).send(user);
     })
